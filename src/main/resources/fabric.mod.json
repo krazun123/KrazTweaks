@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "krazun"
+  ],
+  "license": "${license}",
+  "icon": "assets/kraztweaks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": ["me.krazun.project.KrazTweaks"]
+  },
+  "mixins": ["kraztweaks.mixins.json"],
+  "depends": {
+    "fabricloader": ">=${loader}",
+    "minecraft": "~${minecraft}",
+    "java": ">=21"
+  }
+}
