@@ -1,4 +1,4 @@
-package me.krazun.project.config;
+package me.krazun.project.config.api;
 
 import me.krazun.project.KrazTweaks;
 

@@ -3,7 +3,7 @@ package me.krazun.project;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.moulberry.lattice.element.LatticeElements;
-import me.krazun.project.config.ConfigInstance;
+import me.krazun.project.config.api.ConfigInstance;
 import me.krazun.project.config.KrazConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;

@@ -12,9 +12,7 @@
   "environment": "*",
   "entrypoints": {
     "client": ["me.krazun.project.KrazTweaks"],
-    "modmenu": [
-      "me.krazun.project.config.ModMenuIntegration"
-    ]
+    "modmenu": ["me.krazun.project.config.api.ModMenuIntegration"]
   },
   "mixins": ["kraztweaks.mixins.json"],
   "depends": {
