@@ -21,7 +21,6 @@ public class KrazTweaks implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         GSON = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
                 .serializeNulls()
                 .setPrettyPrinting()
                 .enableComplexMapKeySerialization()

@@ -1,0 +1,5 @@
+{
+  "krazconfig.visual": "Visual",
+  "krazconfig.visual.hideRecipeBook": "Hide Recipe Book",
+  "krazconfig.visual.hideRecipeBook.description": "Hides the recipe book from the inventory."
+}
