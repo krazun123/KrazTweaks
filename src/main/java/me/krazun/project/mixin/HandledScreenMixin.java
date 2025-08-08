@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 
 import java.util.List;
 
@@ -32,10 +31,10 @@ public abstract class HandledScreenMixin {
     protected abstract Slot getSlotAt(double mouseX, double mouseY);
 
     @Inject(method = "drawSlotHighlightBack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
-    public void kraztweaks$drawSlotHighlightBack$hideSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
-        final var hideSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.hideSlotHighlightingWhenTooltipIsEmpty;
+    public void kraztweaks$drawSlotHighlightBack$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
+        final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
-        if(hideSlotHighlightingWhenTooltipIsEmpty) {
+        if(cancelSlotHighlightingWhenTooltipIsEmpty) {
             if(focusedSlot == null) return;
             final var itemStack = focusedSlot.getStack();
             final var tooltipList = getTooltipFromItem(itemStack);
@@ -51,10 +50,10 @@ public abstract class HandledScreenMixin {
     }
 
     @Inject(method = "drawSlotHighlightFront", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
-    public void kraztweaks$drawSlotHighlightFront$hideSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
-        final var hideSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.hideSlotHighlightingWhenTooltipIsEmpty;
+    public void kraztweaks$drawSlotHighlightFront$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
+        final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
-        if(hideSlotHighlightingWhenTooltipIsEmpty) {
+        if(cancelSlotHighlightingWhenTooltipIsEmpty) {
             if(focusedSlot == null) return;
             final var itemStack = focusedSlot.getStack();
             final var tooltipList = getTooltipFromItem(itemStack);

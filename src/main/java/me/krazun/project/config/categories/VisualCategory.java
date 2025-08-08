@@ -14,9 +14,9 @@ public final class VisualCategory {
         @LatticeWidgetButton
         public boolean hideRecipeBook = false;
 
-        @LatticeOption(title = "krazconfig.visual.inventory.hideSlotHighlightingWhenTooltipIsEmpty", description = "!!.description")
+        @LatticeOption(title = "krazconfig.visual.inventory.cancelSlotHighlightingWhenTooltipIsEmpty", description = "!!.description")
         @LatticeWidgetButton
-        public boolean hideSlotHighlightingWhenTooltipIsEmpty = false;
+        public boolean cancelSlotHighlightingWhenTooltipIsEmpty = false;
 
         @LatticeOption(title = "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty", description = "!!.description")
         @LatticeWidgetButton
