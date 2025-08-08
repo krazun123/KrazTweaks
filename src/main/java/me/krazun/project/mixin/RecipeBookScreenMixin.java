@@ -12,7 +12,7 @@ public class RecipeBookScreenMixin {
 
     @Inject(method = "addRecipeBook", at = @At(value = "HEAD"), cancellable = true)
     public void kraztweaks$addRecipeBook$hideRecipeBook(CallbackInfo ci) {
-        final var hideRecipeBook = KrazTweaks.CONFIG.configInstance().visualCategory.hideRecipeBook;
+        final var hideRecipeBook = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.hideRecipeBook;
 
         if(hideRecipeBook) {
             ci.cancel();
