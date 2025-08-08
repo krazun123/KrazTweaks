@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 
 import java.util.List;
 
@@ -24,6 +26,10 @@ public abstract class HandledScreenMixin {
 
     @Shadow
     protected abstract List<Text> getTooltipFromItem(ItemStack stack);
+
+    @Shadow
+    @Nullable
+    protected abstract Slot getSlotAt(double mouseX, double mouseY);
 
     @Inject(method = "drawSlotHighlightBack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
     public void kraztweaks$drawSlotHighlightBack$hideSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
@@ -58,6 +64,46 @@ public abstract class HandledScreenMixin {
             } else {
                 if(tooltipList.getFirst().getString().isBlank()) {
                     ci.cancel();
+                }
+            }
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At(value = "HEAD"), cancellable = true)
+    public void kraztweaks$mouseClicked$cancelClicksOnSlotWhenTooltipIsEmpty(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
+
+        if(cancelClicksOnSlotWhenTooltipIsEmpty) {
+            final var slot = getSlotAt(mouseX, mouseY);
+            if(slot == null) return;
+
+            final var itemStack = slot.getStack();
+            final var tooltipList = getTooltipFromItem(itemStack);
+
+            if(tooltipList.isEmpty()) {
+                cir.cancel();
+            } else {
+                if(tooltipList.getFirst().getString().isBlank()) {
+                    cir.cancel();
+                }
+            }
+        }
+    }
+
+    @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
+    public void kraztweaks$keyPressed$cancelClicksOnSlotWhenTooltipIsEmpty(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
+
+        if(cancelClicksOnSlotWhenTooltipIsEmpty) {
+            if(focusedSlot == null) return;
+            final var itemStack = focusedSlot.getStack();
+            final var tooltipList = getTooltipFromItem(itemStack);
+
+            if(tooltipList.isEmpty()) {
+                cir.cancel();
+            } else {
+                if(tooltipList.getFirst().getString().isBlank()) {
+                    cir.cancel();
                 }
             }
         }
