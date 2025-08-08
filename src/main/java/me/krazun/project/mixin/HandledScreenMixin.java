@@ -26,10 +26,6 @@ public abstract class HandledScreenMixin {
     @Shadow
     protected abstract List<Text> getTooltipFromItem(ItemStack stack);
 
-    @Shadow
-    @Nullable
-    protected abstract Slot getSlotAt(double mouseX, double mouseY);
-
     @Inject(method = "drawSlotHighlightBack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
     public void kraztweaks$drawSlotHighlightBack$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;

@@ -1,6 +1,8 @@
 package me.krazun.project.config.api;
 
 import me.krazun.project.KrazTweaks;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +12,8 @@ import java.nio.file.StandardOpenOption;
 
 public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configInstance) {
 
-    public static <T> ConfigInstance<T> load(Path configPath, Class<T> clazz) {
+    @Contract("_, _ -> new")
+    public static <T> @NotNull ConfigInstance<T> load(Path configPath, Class<T> clazz) {
         try {
             if(Files.exists(configPath)) {
                 final String data = readFile(configPath);
@@ -44,7 +47,7 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
         }
     }
 
-    private static String readFile(Path configPath) {
+    private static @NotNull String readFile(Path configPath) {
         try {
             return Files.readString(configPath);
         } catch (IOException e) {
