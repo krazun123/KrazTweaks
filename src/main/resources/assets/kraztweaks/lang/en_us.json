@@ -5,5 +5,6 @@
   "krazconfig.visual.inventory.hideRecipeBook.description": "Hides the recipe book from the inventory.",
   "krazconfig.visual.inventory.hideSlotHighlightingWhenTooltipIsEmpty": "Hide Slot Highlighting When Tooltip Empty",
   "krazconfig.visual.inventory.hideSlotHighlightingWhenTooltipIsEmpty.description": "Hides the slot hightlighting of items with empty tooltips.",
-  "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty": "Cancel Clicks On Slot When Tooltip Empty"
+  "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty": "Cancel Clicks On Slot When Tooltip Empty",
+  "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty.description": "Cancels the clicks on items with empty tooltips."
 }
