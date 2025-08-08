@@ -11,7 +11,10 @@
   "icon": "assets/kraztweaks/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": ["me.krazun.project.KrazTweaks"]
+    "client": ["me.krazun.project.KrazTweaks"],
+    "modmenu": [
+      "me.krazun.project.config.ModMenuIntegration"
+    ]
   },
   "mixins": ["kraztweaks.mixins.json"],
   "depends": {

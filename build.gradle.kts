@@ -20,7 +20,9 @@ class FabricData {
 
 class DependencyData {
     var fabricAPIVersion = project.findProperty("dependencies.fabricAPIVersion") as String
-    var mixinConstraintsVersion = project.findProperty("dependencies.mixinConstraintsVersion")
+    var mixinConstraintsVersion = project.findProperty("dependencies.mixinConstraintsVersion") as String
+    var latticeVersion = project.findProperty("dependencies.latticeVersion") as String
+    var modmenuVersion = project.findProperty("dependencies.modmenuVersion") as String
 }
 
 val modData = ModData()
@@ -34,6 +36,10 @@ base {
     archivesName.set(modData.modID)
 }
 
+repositories {
+    maven("https://maven.terraformersmc.com/")
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${fabricData.minecraftVersion}")
     mappings("net.fabricmc:yarn:${fabricData.mappingsVersion}:v2")
@@ -41,6 +47,12 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${fabricData.loaderVersion}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${dependencyData.fabricAPIVersion}")
     modImplementation("com.moulberry:mixinconstraints:${dependencyData.mixinConstraintsVersion}")
+    modImplementation("com.moulberry:lattice:${dependencyData.latticeVersion}") {
+        attributes {
+            attribute(Attribute.of("earth.terrarium.cloche.modLoader", String::class.java), "fabric")
+        }
+    }
+    modImplementation("com.terraformersmc:modmenu:${dependencyData.modmenuVersion}")
 }
 
 java {
