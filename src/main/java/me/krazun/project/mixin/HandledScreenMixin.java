@@ -73,10 +73,8 @@ public abstract class HandledScreenMixin {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
         if(cancelClicksOnSlotWhenTooltipIsEmpty) {
-            final var slot = getSlotAt(mouseX, mouseY);
-            if(slot == null) return;
-
-            final var itemStack = slot.getStack();
+            if(focusedSlot == null) return;
+            final var itemStack = focusedSlot.getStack();
             final var tooltipList = getTooltipFromItem(itemStack);
 
             if(tooltipList.isEmpty()) {
