@@ -38,6 +38,7 @@ base {
 
 repositories {
     maven("https://maven.terraformersmc.com/")
+    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 dependencies {
@@ -53,6 +54,7 @@ dependencies {
         }
     }
     modImplementation("com.terraformersmc:modmenu:${dependencyData.modmenuVersion}")
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 }
 
 java {
