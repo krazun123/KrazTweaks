@@ -1,5 +1,7 @@
 package me.krazun.project.utils;
 
+import me.krazun.project.KrazTweaks;
+import me.krazun.project.config.categories.VisualCategory;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +17,16 @@ public final class MiscUtils {
 
     public static final Timer TIMER = new Timer();
     public static final Random RANDOM = new Random();
+
+    public static boolean shouldHideStatusEffectsForHUD() {
+        final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
+        return hideStatusEffects == VisualCategory.HideStatusEffects.BOTH || hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
+    }
+
+    public static boolean shouldHideStatusEffectsForInventory() {
+        final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
+        return hideStatusEffects == VisualCategory.HideStatusEffects.BOTH || hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;
+    }
 
     @Nullable
     public static Hand getHandWithItem(@NotNull ClientPlayerEntity player, @NotNull Item item) {

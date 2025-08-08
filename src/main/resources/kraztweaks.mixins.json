@@ -9,6 +9,8 @@
   },
   "client": [
     "HandledScreenMixin",
-    "RecipeBookScreenMixin"
+    "InGameHudMixin",
+    "RecipeBookScreenMixin",
+    "StatusEffectsDisplayMixin"
   ]
 }
