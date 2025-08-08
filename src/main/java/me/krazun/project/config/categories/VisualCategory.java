@@ -17,5 +17,9 @@ public final class VisualCategory {
         @LatticeOption(title = "krazconfig.visual.inventory.hideSlotHighlightingWhenTooltipIsEmpty", description = "!!.description")
         @LatticeWidgetButton
         public boolean hideSlotHighlightingWhenTooltipIsEmpty = false;
+
+        @LatticeOption(title = "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty", description = "!!.description")
+        @LatticeWidgetButton
+        public boolean cancelClicksOnSlotWhenTooltipIsEmpty = false;
     }
 }
