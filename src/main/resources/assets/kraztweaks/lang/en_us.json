@@ -13,5 +13,10 @@
   "krazconfig.visual.inventory.cancelSlotHighlightingWhenTooltipIsEmpty.description": "Cancels the slot hightlighting of items without tooltips.",
 
   "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty": "Cancel Clicks On Slot When Tooltip Empty",
-  "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty.description": "Cancels the clicks on slots with item without tooltips."
+  "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty.description": "Cancels the clicks on slots with item without tooltips.",
+
+  "krazconfig.misc": "Misc",
+
+  "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",
+  "krazconfig.misc.ignoreSignatureErrors.description": "Stops signature related errors from appearing in your logs."
 }
