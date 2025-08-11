@@ -57,6 +57,10 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/kraztweaks.accesswidener")
+}
+
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21

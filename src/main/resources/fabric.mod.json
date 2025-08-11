@@ -14,6 +14,7 @@
     "client": ["me.krazun.project.KrazTweaks"],
     "modmenu": ["me.krazun.project.config.api.ModMenuIntegration"]
   },
+  "accessWidener" : "kraztweaks.accesswidener",
   "mixins": ["kraztweaks.mixins.json"],
   "depends": {
     "fabricloader": ">=${loader}",
