@@ -15,7 +15,14 @@
   "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty": "Cancel Clicks On Slot When Tooltip Empty",
   "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty.description": "Cancels the clicks on slots with item without tooltips.",
 
+  "krazconfig.hypixel": "Hypixel",
+
+  "krazconfig.hypixel.achievementHelper.customGameAchivementsMenu": "Custom Game Achivements Menu",
+  "krazconfig.hypixel.achievementHelper.customGameAchivementsMenu.description": "A custom menu for achivement created for hypixel.",
+
   "krazconfig.misc": "Misc",
+
+  "krazconfig.hypixel.achievementHelper": "Achievement Helper",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",
   "krazconfig.misc.ignoreSignatureErrors.description": "Stops signature related errors from appearing in your logs."
