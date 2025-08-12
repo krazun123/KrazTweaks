@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.moulberry.lattice.element.LatticeElements;
 import me.krazun.project.config.api.ConfigInstance;
 import me.krazun.project.config.KrazConfig;
-import me.krazun.project.features.achievement.AchievementHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
@@ -29,9 +28,5 @@ public class KrazTweaks implements ClientModInitializer {
         CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("kraztweaks.json");
         CONFIG = ConfigInstance.load(CONFIG_PATH, KrazConfig.class);
         CONFIG_ELEMENTS = LatticeElements.fromAnnotations(Text.literal("KrazTweaks"), CONFIG.configInstance());
-
-        if(CONFIG.configInstance().hypixelCategory.achievementHelper.customGameAchivementsMenu) {
-            AchievementHelper.load();
-        }
     }
 }
