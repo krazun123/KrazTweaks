@@ -12,6 +12,7 @@
   },
   "client": [
     "ChatHudMixin",
+    "ChatScreenMixin",
     "HandledScreenMixin",
     "InGameHudMixin",
     "PlayerSkinProviderMixin",
