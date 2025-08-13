@@ -18,23 +18,47 @@ public final class LogHelper {
         log(Level.INFO, message, throwable);
     }
 
+    public static void info(@NotNull String message) {
+        info(message, null);
+    }
+
     public static void warn(@NotNull String message, @Nullable Throwable throwable) {
         log(Level.WARN, message, throwable);
+    }
+
+    public static void warn(@NotNull String message) {
+        warn(message, null);
     }
 
     public static void debug(@NotNull String message, @Nullable Throwable throwable) {
         log(Level.DEBUG, message, throwable);
     }
 
+    public static void debug(@NotNull String message) {
+        debug(message, null);
+    }
+
     public static void trace(@NotNull String message, @Nullable Throwable throwable) {
         log(Level.TRACE, message, throwable);
+    }
+
+    public static void trace(@NotNull String message) {
+        trace(message, null);
     }
 
     public static void error(@NotNull String message, @Nullable Throwable throwable) {
         log(Level.ERROR, message, throwable);
     }
 
+    public static void error(@NotNull String message) {
+        error(message, null);
+    }
+
     public static void fatal(@NotNull String message, @Nullable Throwable throwable) {
         log(Level.FATAL, message, throwable);
+    }
+
+    public static void fatal(@NotNull String message) {
+        fatal(message, null);
     }
 }
