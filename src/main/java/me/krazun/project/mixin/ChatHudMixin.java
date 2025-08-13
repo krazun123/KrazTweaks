@@ -40,22 +40,43 @@ public abstract class ChatHudMixin {
         if(KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps) {
             visibleMessages.stream().filter(visible -> visible.content().equals(text)).findAny().ifPresentOrElse(visible -> {
                 final var localTime = MiscUtils.getLocalTimeByForwardedTicks(visible.addedTime());
-                final var formattedTime = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                final var format = KrazTweaks.CONFIG.configInstance().chatCategory.chatTimestampFormat;
 
-                final var timestamp = OrderedText.styledForwardsVisitedString("[" + formattedTime + "] ", Style.of(
-                        Optional.ofNullable(TextColor.fromFormatting(Formatting.DARK_GRAY)),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty()
-                ));
-                context.drawTextWithShadow(textRenderer, OrderedText.concat(timestamp, text), x, y, color);
+                try {
+                    final var formattedTime = localTime.format(DateTimeFormatter.ofPattern(format));
+
+                    final var timestamp = OrderedText.styledForwardsVisitedString("[" + formattedTime + "] ", Style.of(
+                            Optional.ofNullable(TextColor.fromFormatting(Formatting.DARK_GRAY)),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty()
+                    ));
+                    context.drawTextWithShadow(textRenderer, OrderedText.concat(timestamp, text), x, y, color);
+                } catch (IllegalArgumentException e) {
+                    final var formattedTime = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+                    final var timestamp = OrderedText.styledForwardsVisitedString("[" + formattedTime + "] ", Style.of(
+                            Optional.ofNullable(TextColor.fromFormatting(Formatting.DARK_GRAY)),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty(),
+                            Optional.empty()
+                    ));
+                    context.drawTextWithShadow(textRenderer, OrderedText.concat(timestamp, text), x, y, color);
+                }
             }, () -> context.drawTextWithShadow(textRenderer, text, x, y, color));
             return 0;
         } else {
@@ -63,11 +84,10 @@ public abstract class ChatHudMixin {
         }
     }
 
-    // TODO: Breaks old messages, when a message is sent before feature enabled.
     @Redirect(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/ChatMessages;breakRenderedChatMessageLines(Lnet/minecraft/text/StringVisitable;ILnet/minecraft/client/font/TextRenderer;)Ljava/util/List;"))
     public List<OrderedText> kraztweaks$addVisibleMessage$includeChatTimestamps(StringVisitable message, int width, TextRenderer textRenderer) {
         if(KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps) {
-            return ChatMessages.breakRenderedChatMessageLines(message, width - textRenderer.getWidth("[HH:mm:ss] "), textRenderer);
+            return ChatMessages.breakRenderedChatMessageLines(message, width - textRenderer.getWidth("[" + KrazTweaks.CONFIG.configInstance().chatCategory.chatTimestampFormat + "] "), textRenderer);
         } else {
             return ChatMessages.breakRenderedChatMessageLines(message, width, textRenderer);
         }
