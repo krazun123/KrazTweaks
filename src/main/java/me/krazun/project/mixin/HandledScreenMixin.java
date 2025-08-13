@@ -9,10 +9,12 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.Cancellable;
 
 import java.util.List;
 
@@ -31,17 +33,7 @@ public abstract class HandledScreenMixin {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
         if(cancelSlotHighlightingWhenTooltipIsEmpty) {
-            if(focusedSlot == null) return;
-            final var itemStack = focusedSlot.getStack();
-            final var tooltipList = getTooltipFromItem(itemStack);
-
-            if(tooltipList.isEmpty()) {
-                ci.cancel();
-            } else {
-                if(tooltipList.getFirst().getString().isBlank()) {
-                    ci.cancel();
-                }
-            }
+            kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(ci);
         }
     }
 
@@ -50,17 +42,7 @@ public abstract class HandledScreenMixin {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
         if(cancelSlotHighlightingWhenTooltipIsEmpty) {
-            if(focusedSlot == null) return;
-            final var itemStack = focusedSlot.getStack();
-            final var tooltipList = getTooltipFromItem(itemStack);
-
-            if(tooltipList.isEmpty()) {
-                ci.cancel();
-            } else {
-                if(tooltipList.getFirst().getString().isBlank()) {
-                    ci.cancel();
-                }
-            }
+            kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(ci);
         }
     }
 
@@ -69,17 +51,7 @@ public abstract class HandledScreenMixin {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
         if(cancelClicksOnSlotWhenTooltipIsEmpty) {
-            if(focusedSlot == null) return;
-            final var itemStack = focusedSlot.getStack();
-            final var tooltipList = getTooltipFromItem(itemStack);
-
-            if(tooltipList.isEmpty()) {
-                cir.cancel();
-            } else {
-                if(tooltipList.getFirst().getString().isBlank()) {
-                    cir.cancel();
-                }
-            }
+            kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(cir);
         }
     }
 
@@ -88,17 +60,21 @@ public abstract class HandledScreenMixin {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
         if(cancelClicksOnSlotWhenTooltipIsEmpty) {
-            if(focusedSlot == null) return;
-            final var itemStack = focusedSlot.getStack();
-            final var tooltipList = getTooltipFromItem(itemStack);
+            kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(cir);
+        }
+    }
 
-            if(tooltipList.isEmpty()) {
-                cir.cancel();
-            } else {
-                if(tooltipList.getFirst().getString().isBlank()) {
-                    cir.cancel();
-                }
-            }
+    @Unique
+    public void kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(Cancellable cancellable) {
+        if(focusedSlot == null) return;
+
+        final var itemStack = focusedSlot.getStack();
+        final var tooltipList = getTooltipFromItem(itemStack);
+
+        if(tooltipList.isEmpty()) {
+            cancellable.cancel();
+        } else if(tooltipList.getFirst().getString().isBlank()) {
+            cancellable.cancel();
         }
     }
 }
