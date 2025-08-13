@@ -22,7 +22,7 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
                 try {
                     return new ConfigInstance<>(configPath, clazz, clazz.getConstructor().newInstance());
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    throw new RuntimeException("Failed to construct config clazz '%s'"
+                    throw new RuntimeException("Failed to construct config class '%s'"
                             .formatted(clazz.getSimpleName()), e);
                 }
             }
