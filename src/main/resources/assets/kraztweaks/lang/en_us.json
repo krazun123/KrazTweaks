@@ -15,6 +15,11 @@
   "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty": "Cancel Clicks On Slot When Tooltip Empty",
   "krazconfig.visual.inventory.cancelClicksOnSlotWhenTooltipIsEmpty.description": "Cancels the clicks on slots with item without tooltips.",
 
+  "krazconfig.chat": "Chat",
+
+  "krazconfig.chat.includeChatTimestamps": "Chat Timestamps",
+  "krazconfig.chat.includeChatTimestamps.description": "Includes the timestamp of when the chat message was sent.",
+
   "krazconfig.misc": "Misc",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",

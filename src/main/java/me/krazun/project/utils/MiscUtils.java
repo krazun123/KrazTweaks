@@ -9,6 +9,9 @@ import net.minecraft.util.Hand;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,5 +60,9 @@ public final class MiscUtils {
 
     public static long randomLong(long min, long max) {
         return RANDOM.nextLong(min, max);
+    }
+
+    public static LocalDateTime getLocalTimeByForwardedTicks(int ticks) {
+        return KrazTweaks.LOCAL_TIME.plusSeconds(ticks / 20);
     }
 }

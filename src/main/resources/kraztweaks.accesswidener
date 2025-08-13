@@ -2,3 +2,4 @@ accessWidener v1 named
 accessible method net/minecraft/network/encryption/SignatureVerifier verify (Lnet/minecraft/network/encryption/SignatureUpdatable;[BLjava/security/Signature;)Z
 accessible class net/minecraft/client/texture/PlayerSkinProvider$Key
 accessible field net/minecraft/client/texture/PlayerSkinProvider LOGGER Lorg/slf4j/Logger;
+accessible method net/minecraft/text/Style of (Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)Lnet/minecraft/text/Style;
