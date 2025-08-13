@@ -1,6 +1,7 @@
 package me.krazun.project.config.api;
 
 import me.krazun.project.KrazTweaks;
+import me.krazun.project.utils.MiscUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
     public static <T> @NotNull ConfigInstance<T> load(Path configPath, Class<T> clazz) {
         try {
             if(Files.exists(configPath)) {
-                final String data = readFile(configPath);
+                final String data = MiscUtils.readFileAsString(configPath);
                 return new ConfigInstance<>(configPath, clazz, KrazTweaks.GSON.fromJson(data, clazz));
             } else {
                 try {
@@ -53,15 +54,6 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
         } catch (Exception e) {
             throw new RuntimeException("Failed to save config '%s'"
                     .formatted(configClass.getSimpleName()), e);
-        }
-    }
-
-    private static @NotNull String readFile(Path configPath) {
-        try {
-            return Files.readString(configPath);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read data from '%s'"
-                    .formatted(configPath.toString()), e);
         }
     }
 }

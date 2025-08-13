@@ -1,21 +1,22 @@
 package me.krazun.project.utils;
 
 import me.krazun.project.KrazTweaks;
-import me.krazun.project.config.categories.VisualCategory;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 public final class MiscUtils {
 
-    public static boolean shouldHideStatusEffectsForHUD() {
-        final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
-        return hideStatusEffects == VisualCategory.HideStatusEffects.BOTH || hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
-    }
-
-    public static boolean shouldHideStatusEffectsForInventory() {
-        final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
-        return hideStatusEffects == VisualCategory.HideStatusEffects.BOTH || hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;
+    public static @NotNull String readFileAsString(Path filePath) {
+        try {
+            return Files.readString(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read data from '%s'"
+                    .formatted(filePath.toString()), e);
+        }
     }
 
     public static @NotNull LocalDateTime getLocalTimeByForwardedTicks(int ticks) {
