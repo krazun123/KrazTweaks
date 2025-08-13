@@ -17,6 +17,9 @@
 
   "krazconfig.chat": "Chat",
 
+  "krazconfig.chat.compactInputBox": "Compact Input Box",
+  "krazconfig.chat.compactInputBox.description": "Makes the chat input box the same size as the chat history box.",
+
   "krazconfig.chat.includeChatTimestamps": "Chat Timestamps",
   "krazconfig.chat.includeChatTimestamps.description": "Displays the time when each chat message was sent alongside the message.",
 

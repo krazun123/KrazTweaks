@@ -6,6 +6,10 @@ import com.moulberry.lattice.annotation.widget.LatticeWidgetTextField;
 
 public final class ChatCategory {
 
+    @LatticeOption(title = "krazconfig.chat.compactInputBox", description = "!!.description")
+    @LatticeWidgetButton
+    public boolean compactInputBox = false;
+
     @LatticeOption(title = "krazconfig.chat.includeChatTimestamps", description = "!!.description")
     @LatticeWidgetButton
     public boolean includeChatTimestamps = false;
