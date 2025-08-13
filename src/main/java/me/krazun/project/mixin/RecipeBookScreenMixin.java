@@ -14,7 +14,7 @@ public class RecipeBookScreenMixin {
     public void kraztweaks$addRecipeBook$hideRecipeBook(CallbackInfo ci) {
         final var hideRecipeBook = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.hideRecipeBook;
 
-        if(hideRecipeBook) {
+        if (hideRecipeBook) {
             ci.cancel();
         }
     }

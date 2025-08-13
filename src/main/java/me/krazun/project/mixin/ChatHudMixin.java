@@ -101,8 +101,9 @@ public abstract class ChatHudMixin {
                     ? OrderedText.concat(kraztweaks$getTimestampText(message.creationTick(), pattern), orderedText)
                     : orderedText;
 
-            this.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), fullLine, message.indicator(), endOfEntry));
-
+            if(message.content().getString().isBlank()) {
+                this.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), orderedText, message.indicator(), endOfEntry));
+            } else this.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), fullLine, message.indicator(), endOfEntry));
         }
         while (this.pseudoVisibleMessages.size() > 100) {
             this.pseudoVisibleMessages.removeLast();

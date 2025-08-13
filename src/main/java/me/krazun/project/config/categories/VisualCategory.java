@@ -18,7 +18,7 @@ public final class VisualCategory {
         HUD,
         INVENTORY,
         BOTH,
-        NONE;
+        NONE
     }
 
     public static class InventoryCategory {

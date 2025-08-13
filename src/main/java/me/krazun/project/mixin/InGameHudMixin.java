@@ -17,9 +17,9 @@ public class InGameHudMixin {
     public void kraztweaks$renderStatusEffectOverlay$hideStatusEffects(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
         final var shouldHideEffects = hideStatusEffects == VisualCategory.HideStatusEffects.BOTH ||
-                        hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
+                hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
 
-        if(shouldHideEffects) {
+        if (shouldHideEffects) {
             ci.cancel();
         }
     }

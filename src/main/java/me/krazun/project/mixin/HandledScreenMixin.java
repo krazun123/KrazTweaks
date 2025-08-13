@@ -32,7 +32,7 @@ public abstract class HandledScreenMixin {
     public void kraztweaks$drawSlotHighlightBack$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
-        if(cancelSlotHighlightingWhenTooltipIsEmpty) {
+        if (cancelSlotHighlightingWhenTooltipIsEmpty) {
             kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(ci);
         }
     }
@@ -41,7 +41,7 @@ public abstract class HandledScreenMixin {
     public void kraztweaks$drawSlotHighlightFront$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
-        if(cancelSlotHighlightingWhenTooltipIsEmpty) {
+        if (cancelSlotHighlightingWhenTooltipIsEmpty) {
             kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(ci);
         }
     }
@@ -50,7 +50,7 @@ public abstract class HandledScreenMixin {
     public void kraztweaks$mouseClicked$cancelClicksOnSlotWhenTooltipIsEmpty(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
-        if(cancelClicksOnSlotWhenTooltipIsEmpty) {
+        if (cancelClicksOnSlotWhenTooltipIsEmpty) {
             kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(cir);
         }
     }
@@ -59,21 +59,21 @@ public abstract class HandledScreenMixin {
     public void kraztweaks$keyPressed$cancelClicksOnSlotWhenTooltipIsEmpty(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
-        if(cancelClicksOnSlotWhenTooltipIsEmpty) {
+        if (cancelClicksOnSlotWhenTooltipIsEmpty) {
             kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(cir);
         }
     }
 
     @Unique
     public void kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(Cancellable cancellable) {
-        if(focusedSlot == null) return;
+        if (focusedSlot == null) return;
 
         final var itemStack = focusedSlot.getStack();
         final var tooltipList = getTooltipFromItem(itemStack);
 
-        if(tooltipList.isEmpty()) {
+        if (tooltipList.isEmpty()) {
             cancellable.cancel();
-        } else if(tooltipList.getFirst().getString().isBlank()) {
+        } else if (tooltipList.getFirst().getString().isBlank()) {
             cancellable.cancel();
         }
     }

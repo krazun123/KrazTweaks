@@ -18,7 +18,7 @@ public class StatusEffectsDisplayMixin {
         final var shouldHideEffects = hideStatusEffects == VisualCategory.HideStatusEffects.BOTH ||
                 hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;
 
-        if(shouldHideEffects) {
+        if (shouldHideEffects) {
             ci.cancel();
         }
     }

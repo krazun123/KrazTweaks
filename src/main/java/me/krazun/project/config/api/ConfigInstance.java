@@ -16,13 +16,14 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
     @Contract("_, _ -> new")
     public static <T> @NotNull ConfigInstance<T> load(Path configPath, Class<T> clazz) {
         try {
-            if(Files.exists(configPath)) {
+            if (Files.exists(configPath)) {
                 final String data = MiscUtils.readFileAsString(configPath);
                 return new ConfigInstance<>(configPath, clazz, KrazTweaks.GSON.fromJson(data, clazz));
             } else {
                 try {
                     return new ConfigInstance<>(configPath, clazz, clazz.getConstructor().newInstance());
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
                     throw new RuntimeException("Failed to construct config class '%s'"
                             .formatted(clazz.getSimpleName()), e);
                 }
@@ -34,7 +35,7 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
     }
 
     public synchronized void save() {
-        if(!Files.exists(configPath.getParent())) {
+        if (!Files.exists(configPath.getParent())) {
             try {
                 Files.createDirectories(configPath.getParent());
             } catch (IOException e) {

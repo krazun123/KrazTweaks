@@ -1,6 +1,5 @@
 package me.krazun.project.mixin;
 
-import com.mojang.authlib.yggdrasil.ServicesKeyInfo;
 import com.mojang.authlib.yggdrasil.ServicesKeySet;
 import com.mojang.authlib.yggdrasil.ServicesKeyType;
 import me.krazun.project.KrazTweaks;
@@ -22,7 +21,7 @@ public interface SignatureVerifierMixin {
     private static void kraztweaks$create$ignoreSignatureErrors(PublicKey publicKey, String algorithm, CallbackInfoReturnable<SignatureVerifier> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
-        if(ignoreSignatureErrors) {
+        if (ignoreSignatureErrors) {
             cir.setReturnValue((updatable, signatureData) -> {
                 try {
                     Signature signature = Signature.getInstance(algorithm);
@@ -39,11 +38,10 @@ public interface SignatureVerifierMixin {
             at = @At("RETURN"), cancellable = true)
     private static void kraztweaks$create$ignoreSignatureErrors(ServicesKeySet servicesKeySet,
                                                                 ServicesKeyType servicesKeyType,
-                                                                CallbackInfoReturnable<SignatureVerifier> cir)
-    {
+                                                                CallbackInfoReturnable<SignatureVerifier> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
-        if(ignoreSignatureErrors) {
+        if (ignoreSignatureErrors) {
             final var collection = servicesKeySet.keys(servicesKeyType);
 
             cir.setReturnValue((updatable, signatureData) -> collection.stream().anyMatch(keyInfo -> {

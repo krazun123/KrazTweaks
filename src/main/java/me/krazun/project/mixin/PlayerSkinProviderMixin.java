@@ -10,7 +10,10 @@ import net.minecraft.client.texture.PlayerSkinProvider;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -29,12 +32,11 @@ public abstract class PlayerSkinProviderMixin {
     @Shadow
     @Final
     private MinecraftSessionService sessionService;
+    @Unique
+    private Executor executor;
 
     @Shadow
     abstract CompletableFuture<SkinTextures> fetchSkinTextures(UUID uuid, MinecraftProfileTextures textures);
-
-    @Unique
-    private Executor executor;
 
     @Inject(method = "<init>", at = @At("CTOR_HEAD"))
     public void kraztweaks$init$fetchExecutor(Path directory, MinecraftSessionService sessionService, Executor executor, CallbackInfo ci) {
@@ -47,24 +49,23 @@ public abstract class PlayerSkinProviderMixin {
              CacheLoader<
                      PlayerSkinProvider.Key,
                      CompletableFuture<Optional<SkinTextures>>
-                     > loader)
-    {
+                     > loader) {
         return CacheBuilder.newBuilder().expireAfterAccess(Duration.ofSeconds(15L)).build(new CacheLoader<>() {
             @Override
             public @NotNull CompletableFuture<Optional<SkinTextures>> load(@NotNull PlayerSkinProvider.Key key) {
                 return CompletableFuture.supplyAsync(() -> {
-                    Property property = key.packedTextures();
-                    if (property == null) {
-                        return MinecraftProfileTextures.EMPTY;
-                    }
+                            Property property = key.packedTextures();
+                            if (property == null) {
+                                return MinecraftProfileTextures.EMPTY;
+                            }
 
-                    return sessionService.unpackTextures(property);
+                            return sessionService.unpackTextures(property);
 
-                    }, Util.getMainWorkerExecutor().named("unpackSkinTextures"))
+                        }, Util.getMainWorkerExecutor().named("unpackSkinTextures"))
                         .thenComposeAsync(textures ->
-                                fetchSkinTextures(
-                                        key.profileId(),
-                                        textures),
+                                        fetchSkinTextures(
+                                                key.profileId(),
+                                                textures),
                                 executor)
                         .handle((skinTextures, throwable) -> {
                             if (throwable != null) {

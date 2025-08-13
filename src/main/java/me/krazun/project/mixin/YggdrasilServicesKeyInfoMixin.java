@@ -14,11 +14,10 @@ public class YggdrasilServicesKeyInfoMixin {
     @Inject(method = "validateProperty",
             at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V", ordinal = 1), cancellable = true)
     public void kraztweaks$validateProperty$ignoreSignatureErrors(Property property,
-                                                                  CallbackInfoReturnable<Boolean> cir)
-    {
+                                                                  CallbackInfoReturnable<Boolean> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
-        if(ignoreSignatureErrors) {
+        if (ignoreSignatureErrors) {
             cir.setReturnValue(false);
         }
     }

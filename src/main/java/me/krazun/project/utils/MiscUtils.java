@@ -27,8 +27,7 @@ public final class MiscUtils {
 
     @Nullable
     public static String parseLocalDateTimeOfPattern(@NotNull LocalDateTime localDateTime,
-                                                     @NotNull String pattern)
-    {
+                                                     @NotNull String pattern) {
         try {
             return localDateTime.format(DateTimeFormatter.ofPattern(pattern));
         } catch (IllegalArgumentException e) {
