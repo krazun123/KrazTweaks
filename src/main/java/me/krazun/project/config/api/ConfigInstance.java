@@ -33,6 +33,15 @@ public record ConfigInstance<T>(Path configPath, Class<T> configClass, T configI
     }
 
     public synchronized void save() {
+        if(!Files.exists(configPath.getParent())) {
+            try {
+                Files.createDirectories(configPath.getParent());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create parental directories for %s"
+                        .formatted(configClass.getSimpleName()), e);
+            }
+        }
+
         try {
             final String data = KrazTweaks.GSON.toJson(configInstance, configClass);
 

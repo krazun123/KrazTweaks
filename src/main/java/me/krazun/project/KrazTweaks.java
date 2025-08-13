@@ -16,6 +16,8 @@ public class KrazTweaks implements ClientModInitializer {
 
     public static Gson GSON;
 
+    public static Path FOLDER_PATH;
+
     public static Path CONFIG_PATH;
     public static ConfigInstance<KrazConfig> CONFIG;
     public static LatticeElements CONFIG_ELEMENTS;
@@ -29,7 +31,10 @@ public class KrazTweaks implements ClientModInitializer {
                 .setPrettyPrinting()
                 .enableComplexMapKeySerialization()
                 .create();
-        CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("kraztweaks.json");
+
+        FOLDER_PATH = FabricLoader.getInstance().getConfigDir().resolve("kraztweaks");
+
+        CONFIG_PATH = FOLDER_PATH.resolve("kraztweaks.json");
         CONFIG = ConfigInstance.load(CONFIG_PATH, KrazConfig.class);
         CONFIG_ELEMENTS = LatticeElements.fromAnnotations(Text.literal("KrazTweaks"), CONFIG.configInstance());
 
