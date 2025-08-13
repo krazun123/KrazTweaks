@@ -26,14 +26,15 @@ public final class MiscUtils {
     }
 
     @Nullable
-    public static String parseLocalDateTimePattern(@NotNull LocalDateTime localDateTime,
-                                                   @NotNull String format)
+    public static String parseLocalDateTimeOfPattern(@NotNull LocalDateTime localDateTime,
+                                                     @NotNull String pattern)
     {
         try {
-            return localDateTime.format(DateTimeFormatter.ofPattern(format));
+            return localDateTime.format(DateTimeFormatter.ofPattern(pattern));
         } catch (IllegalArgumentException e) {
-
+            LogHelper.error("Failed to parse localDataTime from pattern '%s'"
+                    .formatted(pattern), e);
+            return null;
         }
-        return null;
     }
 }

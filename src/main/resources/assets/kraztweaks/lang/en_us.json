@@ -20,8 +20,8 @@
   "krazconfig.chat.includeChatTimestamps": "Chat Timestamps",
   "krazconfig.chat.includeChatTimestamps.description": "Includes the timestamp of when the chat message was sent.",
 
-  "krazconfig.chat.chatTimestampFormat": "Chat Timestamp Format",
-  "krazconfig.chat.chatTimestampFormat.description": "The timestamp format for the chat messages.\n\nNOTE: If format is invalid, then the default format of 'HH:mm:ss' is used instead!",
+  "krazconfig.chat.chatTimestampPattern": "Chat Timestamp Pattern",
+  "krazconfig.chat.chatTimestampPattern.description": "The pattern used for the timestamp of the chat messages.\n\nNOTE: If pattern is invalid, then the default pattern of 'HH:mm:ss' is used instead!",
 
   "krazconfig.misc": "Misc",
 

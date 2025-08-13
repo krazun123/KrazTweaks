@@ -10,8 +10,8 @@ public final class ChatCategory {
     @LatticeWidgetButton
     public boolean includeChatTimestamps = false;
 
-    @LatticeOption(title = "krazconfig.chat.chatTimestampFormat", description = "!!.description")
+    @LatticeOption(title = "krazconfig.chat.chatTimestampPattern", description = "!!.description")
     @LatticeWidgetTextField
-    public String chatTimestampFormat = "HH:mm:ss";
+    public String chatTimestampPattern = "HH:mm:ss";
 
 }
