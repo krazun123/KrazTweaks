@@ -20,7 +20,7 @@
   "krazconfig.chat.compactInputBox": "Compact Input Box",
   "krazconfig.chat.compactInputBox.description": "Makes the chat input box the same size as the chat history box.",
 
-  "krazconfig.chat.compactInputBoxMinimumWidth": "Input Box Minimum Width",
+  "krazconfig.chat.compactInputBoxMinimumWidth": "Minimum Width of Input Box",
   "krazconfig.chat.compactInputBoxMinimumWidth.description": "The minimum width of the input box that the will be allowed.",
 
   "krazconfig.chat.includeChatTimestamps": "Chat Timestamps",

@@ -49,6 +49,11 @@ public class ChatScreenMixin {
         final double chatWidth = client.options.getChatWidth().getValue();
 
         final int calculatedWith = MathHelper.ceil((float) ChatHud.getWidth(chatWidth / chatScale));
+        final var minimumWidth = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBoxMinimumWidth;
+
+        if(calculatedWith < minimumWidth) {
+            return minimumWidth + 8;
+        }
 
         return calculatedWith + 8;
     }
