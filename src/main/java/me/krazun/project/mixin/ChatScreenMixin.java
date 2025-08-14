@@ -5,15 +5,11 @@ import me.krazun.project.utils.ChatHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.toast.SystemToast;
-import net.minecraft.client.util.Clipboard;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -60,9 +56,9 @@ public abstract class ChatScreenMixin {
             MinecraftClient.getInstance().getToastManager().add(new SystemToast(
                     new SystemToast.Type(),
                     Text.literal("KrazTweaks"),
-                    Text.literal("Copied Chat Message").withColor(5592405)
+                    Text.literal("     Copied Chat Message").withColor(5592405)
             ));
-            MinecraftClient.getInstance().keyboard.setClipboard(visible.content().getString());
+            MinecraftClient.getInstance().keyboard.setClipboard(visible.content().getString().replaceAll("§", "&"));
         }
     }
 

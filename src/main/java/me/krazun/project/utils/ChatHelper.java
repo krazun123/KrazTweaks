@@ -7,41 +7,33 @@ import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ChatHelper {
 
     public static final List<ChatHudLine.Visible> pseudoVisibleMessages = Lists.newArrayList();
 
-    // TODO: Correctify this
     public static @Nullable ChatHudLine getLineAt(double mouseX, double mouseY) {
         final var chatHud = MinecraftClient.getInstance().inGameHud.getChatHud();
-
-        double e = chatHud.toChatLineY(mouseY);
-        double d = chatHud.toChatLineX(mouseX);
-
-        int i = chatHud.getMessageLineIndex(d, e);
+        final var lineSelected = chatHud.getMessageLineIndex(chatHud.toChatLineX(mouseX), chatHud.toChatLineY(mouseY));
+        if (lineSelected == -1) return null;
 
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
-        final List<ChatHudLine.Visible> list = includeChatTimestamps ? pseudoVisibleMessages : chatHud.visibleMessages;
+        final var list = includeChatTimestamps ? pseudoVisibleMessages : chatHud.visibleMessages;
 
-        if (i >= 0 && i < list.size()) {
-            ChatHudLine.Visible visible = list.get(i);
+        final var indexesOfEntryEnds = IntStream.range(0, list.size())
+                .filter(index -> list.get(index).endOfEntry())
+                .boxed()
+                .toList();
 
-            final var optional = MinecraftClient.getInstance().inGameHud.getChatHud().messages
-                    .stream()
-                    .filter(line -> line.creationTick() == visible.addedTime())
-                    .filter(line -> {
-                        if(line.indicator() != null) {
-                            return line.indicator().equals(visible.indicator());
-                        } else return true;
-                    })
-                    .findAny();
+        final var indexOfMessageEntryEnd = indexesOfEntryEnds
+                .stream()
+                .filter(index -> index <= lineSelected)
+                .reduce((a, b) -> b)
+                .orElse(-1);
+        if (indexOfMessageEntryEnd == -1) return null;
 
-            if(optional.isPresent()) {
-                return optional.get();
-            }
-        }
-
-        return null;
+        int indexOfMessage = indexesOfEntryEnds.indexOf(indexOfMessageEntryEnd);
+        return chatHud.messages.get(indexOfMessage);
     }
 }
