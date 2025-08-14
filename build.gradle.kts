@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("fabric-loom") version("1.11-SNAPSHOT")
+    id("com.gradleup.shadow") version("9.0.0-beta3")
 }
 
 class ModData {
@@ -45,10 +46,12 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${fabricData.loaderVersion}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${dependencyData.fabricAPIVersion}")
-    modImplementation("com.moulberry:lattice:${dependencyData.latticeVersion}") {
+    include(modImplementation("com.moulberry:lattice:${dependencyData.latticeVersion}") {
         attributes {
             attribute(Attribute.of("earth.terrarium.cloche.modLoader", String::class.java), "fabric")
         }
+    }) {
+
     }
     modImplementation("com.terraformersmc:modmenu:${dependencyData.modmenuVersion}")
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
