@@ -1,4 +1,4 @@
-package me.krazun.project.config.api;
+package me.krazun.project.config.api.integrations;
 
 import com.moulberry.lattice.Lattice;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
