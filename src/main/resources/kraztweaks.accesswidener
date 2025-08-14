@@ -3,3 +3,8 @@ accessible method net/minecraft/network/encryption/SignatureVerifier verify (Lne
 accessible class net/minecraft/client/texture/PlayerSkinProvider$Key
 accessible field net/minecraft/client/texture/PlayerSkinProvider LOGGER Lorg/slf4j/Logger;
 accessible method net/minecraft/text/Style of (Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)Lnet/minecraft/text/Style;
+accessible method net/minecraft/client/gui/hud/ChatHud toChatLineX (D)D
+accessible method net/minecraft/client/gui/hud/ChatHud toChatLineY (D)D
+accessible method net/minecraft/client/gui/hud/ChatHud getMessageLineIndex (DD)I
+accessible field net/minecraft/client/gui/hud/ChatHud visibleMessages Ljava/util/List;
+accessible field net/minecraft/client/gui/hud/ChatHud messages Ljava/util/List;

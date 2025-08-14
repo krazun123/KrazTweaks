@@ -29,6 +29,9 @@
   "krazconfig.chat.chatTimestampPattern": "Chat Timestamp Pattern",
   "krazconfig.chat.chatTimestampPattern.description": "Defines the format pattern for chat message timestamps.\n\nNOTE: If pattern is invalid, then the default pattern of 'HH:mm:ss' is used instead!",
 
+  "krazconfig.chat.copyChat": "Copy Chat",
+  "krazconfig.chat.copyChat.description": "When chat message is clicked with appointed keybinding, the message will be sent to your clipboard.",
+
   "krazconfig.misc": "Misc",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",

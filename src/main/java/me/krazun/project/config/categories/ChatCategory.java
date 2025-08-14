@@ -5,8 +5,10 @@ import com.moulberry.lattice.annotation.LatticeOption;
 import com.moulberry.lattice.annotation.constraint.LatticeIntRange;
 import com.moulberry.lattice.annotation.constraint.LatticeShowIf;
 import com.moulberry.lattice.annotation.widget.LatticeWidgetButton;
+import com.moulberry.lattice.annotation.widget.LatticeWidgetKeybind;
 import com.moulberry.lattice.annotation.widget.LatticeWidgetSlider;
 import com.moulberry.lattice.annotation.widget.LatticeWidgetTextField;
+import me.krazun.project.config.api.custom.CustomKeybind;
 
 public final class ChatCategory {
 
@@ -31,5 +33,9 @@ public final class ChatCategory {
     @LatticeOption(title = "krazconfig.chat.chatTimestampPattern", description = "!!.description")
     @LatticeWidgetTextField
     public String chatTimestampPattern = "HH:mm:ss";
+
+    @LatticeOption(title = "krazconfig.chat.copyChat", description = "!!.description")
+    @LatticeWidgetKeybind(allowModifiers = true)
+    public CustomKeybind copyChat = new CustomKeybind(null, 0, false, false, false, false);
 
 }

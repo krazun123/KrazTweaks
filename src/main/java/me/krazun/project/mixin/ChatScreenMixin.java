@@ -1,12 +1,19 @@
 package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
+import me.krazun.project.utils.ChatHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.toast.SystemToast;
+import net.minecraft.client.util.Clipboard;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,9 +21,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ChatScreen.class)
-public class ChatScreenMixin {
+public abstract class ChatScreenMixin {
 
     @Shadow
     protected TextFieldWidget chatField;
@@ -38,6 +46,23 @@ public class ChatScreenMixin {
             instance.fill(x1, y1, kraztweaks$compactInputBox$width() + 4, y2, color);
         } else {
             instance.fill(x1, y1, x2, y2, color);
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    public void kraztweaks$mouseClicked$copyChat(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        final var keybindMatch = KrazTweaks.CONFIG.configInstance().chatCategory.copyChat.matches(button, true);
+
+        if(keybindMatch) {
+            final var visible = ChatHelper.getLineAt(mouseX, mouseY);
+            if(visible == null) return;
+
+            MinecraftClient.getInstance().getToastManager().add(new SystemToast(
+                    new SystemToast.Type(),
+                    Text.literal("KrazTweaks"),
+                    Text.literal("Copied Chat Message").withColor(5592405)
+            ));
+            MinecraftClient.getInstance().keyboard.setClipboard(visible.content().getString());
         }
     }
 

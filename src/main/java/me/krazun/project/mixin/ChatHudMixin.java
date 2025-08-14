@@ -1,6 +1,7 @@
 package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
+import me.krazun.project.utils.ChatHelper;
 import me.krazun.project.utils.MiscUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
@@ -11,7 +12,6 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,9 +25,6 @@ import java.util.List;
 
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin {
-
-    @Unique
-    private final List<ChatHudLine.Visible> pseudoVisibleMessages = Lists.newArrayList();
 
     @Shadow
     private int scrolledLines;
@@ -51,7 +48,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
@@ -62,7 +59,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.get(i);
+            return ChatHelper.pseudoVisibleMessages.get(i);
         }
 
         return instance.get(i);
@@ -102,22 +99,22 @@ public abstract class ChatHudMixin {
                     : orderedText;
 
             if(message.content().getString().isBlank()) {
-                this.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), orderedText, message.indicator(), endOfEntry));
-            } else this.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), fullLine, message.indicator(), endOfEntry));
+                ChatHelper.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), orderedText, message.indicator(), endOfEntry));
+            } else ChatHelper.pseudoVisibleMessages.addFirst(new ChatHudLine.Visible(message.creationTick(), fullLine, message.indicator(), endOfEntry));
         }
-        while (this.pseudoVisibleMessages.size() > 100) {
-            this.pseudoVisibleMessages.removeLast();
+        while (ChatHelper.pseudoVisibleMessages.size() > 100) {
+            ChatHelper.pseudoVisibleMessages.removeLast();
         }
     }
 
     @Inject(method = "clear", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V"))
     public void kraztweaks$clear$includeChatTimestamps(boolean clearHistory, CallbackInfo ci) {
-        pseudoVisibleMessages.clear();
+        ChatHelper.pseudoVisibleMessages.clear();
     }
 
     @Inject(method = "refresh", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V"))
     public void kraztweaks$refresh$includeChatTimestamps(CallbackInfo ci) {
-        pseudoVisibleMessages.clear();
+        ChatHelper.pseudoVisibleMessages.clear();
     }
 
     @Redirect(method = "scroll", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
@@ -125,7 +122,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
@@ -136,7 +133,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
@@ -147,7 +144,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.get(i);
+            return ChatHelper.pseudoVisibleMessages.get(i);
         }
 
         return instance.get(i);
@@ -158,7 +155,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
@@ -169,7 +166,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.get(i);
+            return ChatHelper.pseudoVisibleMessages.get(i);
         }
 
         return instance.get(i);
@@ -180,7 +177,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.get(i);
+            return ChatHelper.pseudoVisibleMessages.get(i);
         }
 
         return instance.get(i);
@@ -191,7 +188,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
@@ -202,7 +199,7 @@ public abstract class ChatHudMixin {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
         if (includeChatTimestamps) {
-            return pseudoVisibleMessages.size();
+            return ChatHelper.pseudoVisibleMessages.size();
         }
 
         return instance.size();
