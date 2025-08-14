@@ -57,7 +57,7 @@ public abstract class ChatScreenMixin {
                     Component.literal("KrazTweaks"),
                     Component.literal("     Copied Chat Message").withColor(5592405)
             ));
-            Minecraft.getInstance().keyboardHandler.setClipboard(visible.content().getString().replaceAll("§", "&"));
+            Minecraft.getInstance().keyboardHandler.setClipboard(visible.content().getString().replaceAll("(§[0-9a-fklmnor])", ""));
         }
     }
 
