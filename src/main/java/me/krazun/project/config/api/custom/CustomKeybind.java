@@ -1,10 +1,10 @@
 package me.krazun.project.config.api.custom;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.moulberry.lattice.keybind.KeybindInterface;
 import com.moulberry.lattice.keybind.LatticeInputType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
@@ -26,9 +26,9 @@ public final class CustomKeybind implements KeybindInterface {
     }
 
     @Override
-    public Text getKeyMessage() {
+    public Component getKeyMessage() {
         if(this.type == null) {
-            return Text.literal("None");
+            return Component.literal("None");
         }
 
         StringBuilder builder = new StringBuilder();
@@ -49,13 +49,13 @@ public final class CustomKeybind implements KeybindInterface {
             builder.append("Super+");
         }
 
-        Text name = switch (this.type) {
-            case KEYSYM -> InputUtil.Type.KEYSYM.createFromCode(value).getLocalizedText();
-            case SCANCODE -> InputUtil.Type.SCANCODE.createFromCode(value).getLocalizedText();
-            case MOUSE -> InputUtil.Type.MOUSE.createFromCode(value).getLocalizedText();
+        Component name = switch (this.type) {
+            case KEYSYM -> InputConstants.Type.KEYSYM.getOrCreate(value).getDisplayName();
+            case SCANCODE -> InputConstants.Type.SCANCODE.getOrCreate(value).getDisplayName();
+            case MOUSE -> InputConstants.Type.MOUSE.getOrCreate(value).getDisplayName();
         };
 
-        return Text.literal(builder.toString()).append(name);
+        return Component.literal(builder.toString()).append(name);
     }
 
     @Override
@@ -78,12 +78,13 @@ public final class CustomKeybind implements KeybindInterface {
     }
 
     @Override
-    public Collection<Text> getConflicts() {
+    public Collection<Component> getConflicts() {
         return List.of();
     }
 
     public boolean matches(int key, boolean mouse) {
-        final var window = MinecraftClient.getInstance().getWindow().getHandle();
+        final var window = Minecraft.getInstance().getWindow().getWindow();
+        if (isUnbound()) return false;
         if(key != value) return false;
 
         if (shiftMod) {

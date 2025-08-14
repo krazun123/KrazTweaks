@@ -1,11 +1,11 @@
 package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,18 +18,18 @@ import org.spongepowered.asm.mixin.injection.callback.Cancellable;
 
 import java.util.List;
 
-@Mixin(HandledScreen.class)
-public abstract class HandledScreenMixin {
+@Mixin(AbstractContainerScreen.class)
+public abstract class AbstractContainerScreenMixin {
 
     @Shadow
     @Nullable
-    protected Slot focusedSlot;
+    protected Slot hoveredSlot;
 
     @Shadow
-    protected abstract List<Text> getTooltipFromItem(ItemStack stack);
+    protected abstract List<Component> getTooltipFromContainerItem(ItemStack itemStack);
 
-    @Inject(method = "drawSlotHighlightBack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
-    public void kraztweaks$drawSlotHighlightBack$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
+    @Inject(method = "renderSlotHighlightBack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"), cancellable = true)
+    public void kraztweaks$renderSlotHighlightBack$cancelSlotHighlightingWhenTooltipIsEmpty(GuiGraphics guiGraphics, CallbackInfo ci) {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
         if (cancelSlotHighlightingWhenTooltipIsEmpty) {
@@ -37,8 +37,8 @@ public abstract class HandledScreenMixin {
         }
     }
 
-    @Inject(method = "drawSlotHighlightFront", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"), cancellable = true)
-    public void kraztweaks$drawSlotHighlightFront$cancelSlotHighlightingWhenTooltipIsEmpty(DrawContext context, CallbackInfo ci) {
+    @Inject(method = "renderSlotHighlightFront", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"), cancellable = true)
+    public void kraztweaks$renderSlotHighlightFront$cancelSlotHighlightingWhenTooltipIsEmpty(GuiGraphics guiGraphics, CallbackInfo ci) {
         final var cancelSlotHighlightingWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelSlotHighlightingWhenTooltipIsEmpty;
 
         if (cancelSlotHighlightingWhenTooltipIsEmpty) {
@@ -66,10 +66,10 @@ public abstract class HandledScreenMixin {
 
     @Unique
     public void kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(Cancellable cancellable) {
-        if (focusedSlot == null) return;
+        if (hoveredSlot == null) return;
 
-        final var itemStack = focusedSlot.getStack();
-        final var tooltipList = getTooltipFromItem(itemStack);
+        final var itemStack = hoveredSlot.getItem();
+        final var tooltipList = getTooltipFromContainerItem(itemStack);
 
         if (tooltipList.isEmpty()) {
             cancellable.cancel();

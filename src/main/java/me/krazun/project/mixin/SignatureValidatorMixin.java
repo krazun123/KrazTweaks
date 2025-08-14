@@ -3,7 +3,7 @@ package me.krazun.project.mixin;
 import com.mojang.authlib.yggdrasil.ServicesKeySet;
 import com.mojang.authlib.yggdrasil.ServicesKeyType;
 import me.krazun.project.KrazTweaks;
-import net.minecraft.network.encryption.SignatureVerifier;
+import net.minecraft.util.SignatureValidator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,12 +13,12 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 
-@Mixin(SignatureVerifier.class)
-public interface SignatureVerifierMixin {
+@Mixin(SignatureValidator.class)
+public interface SignatureValidatorMixin {
 
-    @Inject(method = "create(Ljava/security/PublicKey;Ljava/lang/String;)Lnet/minecraft/network/encryption/SignatureVerifier;",
+    @Inject(method = "from(Ljava/security/PublicKey;Ljava/lang/String;)Lnet/minecraft/util/SignatureValidator;",
             at = @At("RETURN"), cancellable = true)
-    private static void kraztweaks$create$ignoreSignatureErrors(PublicKey publicKey, String algorithm, CallbackInfoReturnable<SignatureVerifier> cir) {
+    private static void kraztweaks$from$ignoreSignatureErrors(PublicKey publicKey, String algorithm, CallbackInfoReturnable<SignatureValidator> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
         if (ignoreSignatureErrors) {
@@ -26,7 +26,7 @@ public interface SignatureVerifierMixin {
                 try {
                     Signature signature = Signature.getInstance(algorithm);
                     signature.initVerify(publicKey);
-                    return SignatureVerifier.verify(updatable, signatureData, signature);
+                    return SignatureValidator.verifySignature(updatable, signatureData, signature);
                 } catch (Exception exception) {
                     return false;
                 }
@@ -34,11 +34,11 @@ public interface SignatureVerifierMixin {
         }
     }
 
-    @Inject(method = "create(Lcom/mojang/authlib/yggdrasil/ServicesKeySet;Lcom/mojang/authlib/yggdrasil/ServicesKeyType;)Lnet/minecraft/network/encryption/SignatureVerifier;",
+    @Inject(method = "from(Lcom/mojang/authlib/yggdrasil/ServicesKeySet;Lcom/mojang/authlib/yggdrasil/ServicesKeyType;)Lnet/minecraft/util/SignatureValidator;",
             at = @At("RETURN"), cancellable = true)
-    private static void kraztweaks$create$ignoreSignatureErrors(ServicesKeySet servicesKeySet,
+    private static void kraztweaks$from$ignoreSignatureErrors(ServicesKeySet servicesKeySet,
                                                                 ServicesKeyType servicesKeyType,
-                                                                CallbackInfoReturnable<SignatureVerifier> cir) {
+                                                                CallbackInfoReturnable<SignatureValidator> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
         if (ignoreSignatureErrors) {
@@ -47,7 +47,7 @@ public interface SignatureVerifierMixin {
             cir.setReturnValue((updatable, signatureData) -> collection.stream().anyMatch(keyInfo -> {
                 Signature signature = keyInfo.signature();
                 try {
-                    return SignatureVerifier.verify(updatable, signatureData, signature);
+                    return SignatureValidator.verifySignature(updatable, signatureData, signature);
                 } catch (SignatureException signatureException) {
                     return false;
                 }

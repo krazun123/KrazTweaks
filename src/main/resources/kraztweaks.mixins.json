@@ -2,21 +2,20 @@
   "required": true,
   "package": "me.krazun.project.mixin",
   "compatibilityLevel": "JAVA_21",
-  "plugin": "com.moulberry.mixinconstraints.ConstraintsMixinPlugin",
   "mixins": [
-    "SignatureVerifierMixin",
+    "SignatureValidatorMixin",
     "YggdrasilServicesKeyInfoMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "ChatHudMixin",
+    "AbstractContainerScreenMixin",
+    "AbstractRecipeBookScreenMixin",
+    "ChatComponentMixin",
     "ChatScreenMixin",
-    "HandledScreenMixin",
-    "InGameHudMixin",
-    "PlayerSkinProviderMixin",
-    "RecipeBookScreenMixin",
-    "StatusEffectsDisplayMixin"
+    "EffectsInInventoryMixin",
+    "GuiMixin",
+    "SkinManagerMixin"
   ]
 }

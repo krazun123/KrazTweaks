@@ -2,21 +2,22 @@ package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
 import me.krazun.project.config.categories.VisualCategory;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.StatusEffectsDisplay;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(StatusEffectsDisplay.class)
-public class StatusEffectsDisplayMixin {
+@Mixin(Gui.class)
+public class GuiMixin {
 
-    @Inject(method = "drawStatusEffects(Lnet/minecraft/client/gui/DrawContext;II)V", at = @At("HEAD"), cancellable = true)
-    public void kraztweaks$drawStatusEffects$hideStatusEffects(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+    @Inject(method = "renderEffects", at = @At("HEAD"), cancellable = true)
+    public void kraztweaks$renderEffects$hideStatusEffects(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
         final var shouldHideEffects = hideStatusEffects == VisualCategory.HideStatusEffects.BOTH ||
-                hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;
+                hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
 
         if (shouldHideEffects) {
             ci.cancel();

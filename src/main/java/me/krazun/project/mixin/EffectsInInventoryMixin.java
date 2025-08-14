@@ -2,22 +2,21 @@ package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
 import me.krazun.project.config.categories.VisualCategory;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.EffectsInInventory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(InGameHud.class)
-public class InGameHudMixin {
+@Mixin(EffectsInInventory.class)
+public class EffectsInInventoryMixin {
 
-    @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
-    public void kraztweaks$renderStatusEffectOverlay$hideStatusEffects(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    public void kraztweaks$render$hideStatusEffects(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
         final var shouldHideEffects = hideStatusEffects == VisualCategory.HideStatusEffects.BOTH ||
-                hideStatusEffects == VisualCategory.HideStatusEffects.HUD;
+                hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;
 
         if (shouldHideEffects) {
             ci.cancel();

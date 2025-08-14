@@ -7,7 +7,7 @@ import me.krazun.project.config.KrazConfig;
 import me.krazun.project.config.api.ConfigInstance;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ public class KrazTweaks implements ClientModInitializer {
 
         CONFIG_PATH = FOLDER_PATH.resolve("kraztweaks.json");
         CONFIG = ConfigInstance.load(CONFIG_PATH, KrazConfig.class);
-        CONFIG_ELEMENTS = LatticeElements.fromAnnotations(Text.literal("KrazTweaks"), CONFIG.configInstance());
+        CONFIG_ELEMENTS = LatticeElements.fromAnnotations(Component.literal("KrazTweaks"), CONFIG.configInstance());
 
         LOCAL_TIME = LocalDateTime.now();
     }

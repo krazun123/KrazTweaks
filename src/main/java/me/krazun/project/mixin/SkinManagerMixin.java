@@ -6,9 +6,9 @@ import com.google.common.cache.LoadingCache;
 import com.mojang.authlib.minecraft.MinecraftProfileTextures;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.client.texture.PlayerSkinProvider;
-import net.minecraft.client.util.SkinTextures;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.SkinManager;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,17 +26,18 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-@Mixin(value = PlayerSkinProvider.class, remap = false)
-public abstract class PlayerSkinProviderMixin {
+@Mixin(SkinManager.class)
+public abstract class SkinManagerMixin {
 
     @Shadow
     @Final
     private MinecraftSessionService sessionService;
-    @Unique
-    private Executor executor;
 
     @Shadow
-    abstract CompletableFuture<SkinTextures> fetchSkinTextures(UUID uuid, MinecraftProfileTextures textures);
+    abstract CompletableFuture<PlayerSkin> registerTextures(UUID uUID, MinecraftProfileTextures minecraftProfileTextures);
+
+    @Unique
+    private Executor executor;
 
     @Inject(method = "<init>", at = @At("CTOR_HEAD"))
     public void kraztweaks$init$fetchExecutor(Path directory, MinecraftSessionService sessionService, Executor executor, CallbackInfo ci) {
@@ -44,15 +45,16 @@ public abstract class PlayerSkinProviderMixin {
     }
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/google/common/cache/CacheBuilder;build(Lcom/google/common/cache/CacheLoader;)Lcom/google/common/cache/LoadingCache;"))
-    public LoadingCache<PlayerSkinProvider.Key, CompletableFuture<Optional<SkinTextures>>> kraztweaks$init$ignoreSignatureErrors
+    public LoadingCache<SkinManager.CacheKey, CompletableFuture<Optional<PlayerSkin>>> kraztweaks$init$ignoreSignatureErrors
             (CacheBuilder<?, ?> instance,
              CacheLoader<
-                     PlayerSkinProvider.Key,
-                     CompletableFuture<Optional<SkinTextures>>
+                     SkinManager.CacheKey,
+                     CompletableFuture<Optional<PlayerSkin>>
                      > loader) {
+
         return CacheBuilder.newBuilder().expireAfterAccess(Duration.ofSeconds(15L)).build(new CacheLoader<>() {
             @Override
-            public @NotNull CompletableFuture<Optional<SkinTextures>> load(@NotNull PlayerSkinProvider.Key key) {
+            public @NotNull CompletableFuture<Optional<PlayerSkin>> load(@NotNull SkinManager.CacheKey key) {
                 return CompletableFuture.supplyAsync(() -> {
                             Property property = key.packedTextures();
                             if (property == null) {
@@ -60,16 +62,15 @@ public abstract class PlayerSkinProviderMixin {
                             }
 
                             return sessionService.unpackTextures(property);
-
-                        }, Util.getMainWorkerExecutor().named("unpackSkinTextures"))
+                        }, Util.backgroundExecutor().forName("unpackSkinTextures"))
                         .thenComposeAsync(textures ->
-                                        fetchSkinTextures(
+                                        registerTextures(
                                                 key.profileId(),
                                                 textures),
                                 executor)
                         .handle((skinTextures, throwable) -> {
                             if (throwable != null) {
-                                PlayerSkinProvider.LOGGER.warn("Failed to load texture for profile {}", key.profileId(), throwable);
+                                SkinManager.LOGGER.warn("Failed to load texture for profile {}", key.profileId(), throwable);
                             }
                             return Optional.ofNullable(skinTextures);
                         });

@@ -2,14 +2,13 @@ package me.krazun.project.mixin;
 
 import me.krazun.project.KrazTweaks;
 import me.krazun.project.utils.ChatHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.toast.SystemToast;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,25 +22,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ChatScreenMixin {
 
     @Shadow
-    protected TextFieldWidget chatField;
+    protected EditBox input;
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ChatScreen;addSelectableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;addWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;"))
     public void kraztweaks$init$compactInputBox(CallbackInfo ci) {
         final var compactInputBox = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBox;
 
         if (compactInputBox) {
-            chatField.setWidth(kraztweaks$compactInputBox$width() - 8);
+            input.setWidth(kraztweaks$compactInputBox$width() - 8);
         }
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"))
-    public void kraztweaks$render$fill$CompactInputBox(DrawContext instance, int x1, int y1, int x2, int y2, int color) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fill(IIIII)V"))
+    public void kraztweaks$render$fill$CompactInputBox(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int color) {
         final var compactInputBox = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBox;
 
         if (compactInputBox) {
-            instance.fill(x1, y1, kraztweaks$compactInputBox$width() + 4, y2, color);
+            guiGraphics.fill(x1, y1, kraztweaks$compactInputBox$width() + 4, y2, color);
         } else {
-            instance.fill(x1, y1, x2, y2, color);
+            guiGraphics.fill(x1, y1, x2, y2, color);
         }
     }
 
@@ -53,23 +52,23 @@ public abstract class ChatScreenMixin {
             final var visible = ChatHelper.getLineAt(mouseX, mouseY);
             if(visible == null) return;
 
-            MinecraftClient.getInstance().getToastManager().add(new SystemToast(
-                    new SystemToast.Type(),
-                    Text.literal("KrazTweaks"),
-                    Text.literal("     Copied Chat Message").withColor(5592405)
+            Minecraft.getInstance().getToastManager().addToast(new SystemToast(
+                    new SystemToast.SystemToastId(),
+                    Component.literal("KrazTweaks"),
+                    Component.literal("     Copied Chat Message").withColor(5592405)
             ));
-            MinecraftClient.getInstance().keyboard.setClipboard(visible.content().getString().replaceAll("§", "&"));
+            Minecraft.getInstance().keyboardHandler.setClipboard(visible.content().getString().replaceAll("§", "&"));
         }
     }
 
     @Unique
     public int kraztweaks$compactInputBox$width() {
-        final var client = MinecraftClient.getInstance();
+        final var client = Minecraft.getInstance();
 
-        final double chatScale = client.options.getChatScale().getValue();
-        final double chatWidth = client.options.getChatWidth().getValue();
+        final double chatScale = client.options.chatScale().get();
+        final double chatWidth = client.options.chatWidth().get();
 
-        final int calculatedWith = MathHelper.ceil((float) ChatHud.getWidth(chatWidth / chatScale));
+        final int calculatedWith = (int) Math.ceil((float) ChatComponent.getWidth(chatWidth / chatScale));
         final var minimumWidth = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBoxMinimumWidth;
 
         if(calculatedWith < minimumWidth) {
