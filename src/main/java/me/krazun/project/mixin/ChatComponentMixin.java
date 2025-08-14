@@ -26,6 +26,11 @@ import java.util.List;
 public abstract class ChatComponentMixin {
 
     @Shadow
+    private int chatScrollbarPos;
+    @Shadow
+    private boolean newMessageSinceScroll;
+
+    @Shadow
     public abstract boolean isChatFocused();
 
     @Shadow
@@ -35,13 +40,7 @@ public abstract class ChatComponentMixin {
     public abstract double getScale();
 
     @Shadow
-    private int chatScrollbarPos;
-
-    @Shadow
     public abstract void scrollChat(int i);
-
-    @Shadow
-    private boolean newMessageSinceScroll;
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
     public int kraztweaks$render$getVisibleMessagesSize$includeChatTimestamps(List<GuiMessage.Line> instance) {
@@ -98,9 +97,10 @@ public abstract class ChatComponentMixin {
                     ? FormattedCharSequence.composite(kraztweaks$getTimestampText(guiMessage.addedTime(), pattern), formattedCharSequence)
                     : formattedCharSequence;
 
-            if(guiMessage.content().getString().isBlank()) {
+            if (guiMessage.content().getString().isBlank()) {
                 ChatHelper.pseudoVisibleMessages.addFirst(new GuiMessage.Line(guiMessage.addedTime(), formattedCharSequence, guiMessage.tag(), endOfEntry));
-            } else ChatHelper.pseudoVisibleMessages.addFirst(new GuiMessage.Line(guiMessage.addedTime(), fullLine, guiMessage.tag(), endOfEntry));
+            } else
+                ChatHelper.pseudoVisibleMessages.addFirst(new GuiMessage.Line(guiMessage.addedTime(), fullLine, guiMessage.tag(), endOfEntry));
         }
         while (ChatHelper.pseudoVisibleMessages.size() > 100) {
             ChatHelper.pseudoVisibleMessages.removeLast();

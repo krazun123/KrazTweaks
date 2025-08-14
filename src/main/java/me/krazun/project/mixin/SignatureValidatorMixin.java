@@ -37,8 +37,8 @@ public interface SignatureValidatorMixin {
     @Inject(method = "from(Lcom/mojang/authlib/yggdrasil/ServicesKeySet;Lcom/mojang/authlib/yggdrasil/ServicesKeyType;)Lnet/minecraft/util/SignatureValidator;",
             at = @At("RETURN"), cancellable = true)
     private static void kraztweaks$from$ignoreSignatureErrors(ServicesKeySet servicesKeySet,
-                                                                ServicesKeyType servicesKeyType,
-                                                                CallbackInfoReturnable<SignatureValidator> cir) {
+                                                              ServicesKeyType servicesKeyType,
+                                                              CallbackInfoReturnable<SignatureValidator> cir) {
         final var ignoreSignatureErrors = KrazTweaks.CONFIG.configInstance().miscCategory.ignoreSignatureErrors;
 
         if (ignoreSignatureErrors) {

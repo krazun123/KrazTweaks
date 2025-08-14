@@ -27,25 +27,25 @@ public final class CustomKeybind implements KeybindInterface {
 
     @Override
     public Component getKeyMessage() {
-        if(this.type == null) {
+        if (this.type == null) {
             return Component.literal("None");
         }
 
         StringBuilder builder = new StringBuilder();
 
-        if(this.shiftMod) {
+        if (this.shiftMod) {
             builder.append("Shift+");
         }
 
-        if(ctrlMod) {
+        if (ctrlMod) {
             builder.append("Ctrl+");
         }
 
-        if(this.altMod) {
+        if (this.altMod) {
             builder.append("Alt+");
         }
 
-        if(this.superMod) {
+        if (this.superMod) {
             builder.append("Super+");
         }
 
@@ -85,7 +85,7 @@ public final class CustomKeybind implements KeybindInterface {
     public boolean matches(int key, boolean mouse) {
         final var window = Minecraft.getInstance().getWindow().getWindow();
         if (isUnbound()) return false;
-        if(key != value) return false;
+        if (key != value) return false;
 
         if (shiftMod) {
             if (GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT_SHIFT) != GLFW.GLFW_PRESS &&
@@ -115,7 +115,7 @@ public final class CustomKeybind implements KeybindInterface {
             }
         }
 
-        if(mouse) {
+        if (mouse) {
             return GLFW.glfwGetMouseButton(window, key) == GLFW.GLFW_PRESS;
         }
 

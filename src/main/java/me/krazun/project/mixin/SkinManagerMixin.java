@@ -32,12 +32,11 @@ public abstract class SkinManagerMixin {
     @Shadow
     @Final
     private MinecraftSessionService sessionService;
+    @Unique
+    private Executor executor;
 
     @Shadow
     abstract CompletableFuture<PlayerSkin> registerTextures(UUID uUID, MinecraftProfileTextures minecraftProfileTextures);
-
-    @Unique
-    private Executor executor;
 
     @Inject(method = "<init>", at = @At("CTOR_HEAD"))
     public void kraztweaks$init$fetchExecutor(Path directory, MinecraftSessionService sessionService, Executor executor, CallbackInfo ci) {

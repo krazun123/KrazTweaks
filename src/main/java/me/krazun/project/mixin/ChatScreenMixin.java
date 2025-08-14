@@ -48,9 +48,9 @@ public abstract class ChatScreenMixin {
     public void kraztweaks$mouseClicked$copyChat(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         final var keybindMatch = KrazTweaks.CONFIG.configInstance().chatCategory.copyChat.matches(button, true);
 
-        if(keybindMatch) {
+        if (keybindMatch) {
             final var visible = ChatHelper.getLineAt(mouseX, mouseY);
-            if(visible == null) return;
+            if (visible == null) return;
 
             Minecraft.getInstance().getToastManager().addToast(new SystemToast(
                     new SystemToast.SystemToastId(),
@@ -71,7 +71,7 @@ public abstract class ChatScreenMixin {
         final int calculatedWith = (int) Math.ceil((float) ChatComponent.getWidth(chatWidth / chatScale));
         final var minimumWidth = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBoxMinimumWidth;
 
-        if(calculatedWith < minimumWidth) {
+        if (calculatedWith < minimumWidth) {
             return minimumWidth + 8;
         }
 
