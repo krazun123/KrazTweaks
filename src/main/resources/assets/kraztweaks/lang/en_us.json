@@ -32,6 +32,8 @@
   "krazconfig.chat.copyChat": "Copy Chat",
   "krazconfig.chat.copyChat.description": "When chat message is clicked with appointed keybinding, the message will be sent to your clipboard.",
 
+  "krazconfig.hypixel": "Hypixel",
+
   "krazconfig.misc": "Misc",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",
