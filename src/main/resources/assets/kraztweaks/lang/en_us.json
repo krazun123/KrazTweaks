@@ -36,6 +36,8 @@
 
   "krazconfig.hypixel.skyblock": "SkyBlock",
 
+  "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions": "Hide Enchantment Descriptions",
+
   "krazconfig.misc": "Misc",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",
