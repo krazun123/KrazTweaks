@@ -34,6 +34,8 @@
 
   "krazconfig.hypixel": "Hypixel",
 
+  "krazconfig.hypixel.skyblock": "SkyBlock",
+
   "krazconfig.misc": "Misc",
 
   "krazconfig.misc.ignoreSignatureErrors": "Ignore Signature Errors",
