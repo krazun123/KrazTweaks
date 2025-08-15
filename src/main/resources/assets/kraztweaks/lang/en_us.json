@@ -37,6 +37,7 @@
   "krazconfig.hypixel.skyblock": "SkyBlock",
 
   "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions": "Hide Enchantment Descriptions",
+  "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions.description": "Hides the description of enchantments on the item.",
 
   "krazconfig.misc": "Misc",
 
