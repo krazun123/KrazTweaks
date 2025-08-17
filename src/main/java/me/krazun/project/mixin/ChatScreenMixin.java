@@ -24,7 +24,7 @@ public abstract class ChatScreenMixin {
     @Shadow
     protected EditBox input;
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;addWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;"))
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;addRenderableWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;"))
     public void kraztweaks$init$compactInputBox(CallbackInfo ci) {
         final var compactInputBox = KrazTweaks.CONFIG.configInstance().chatCategory.compactInputBox;
 

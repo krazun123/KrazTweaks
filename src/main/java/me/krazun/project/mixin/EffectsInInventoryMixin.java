@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(EffectsInInventory.class)
 public class EffectsInInventoryMixin {
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void kraztweaks$render$hideStatusEffects(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+    @Inject(method = "renderEffects", at = @At("HEAD"), cancellable = true)
+    public void kraztweaks$renderEffects$hideStatusEffects(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
         final var hideStatusEffects = KrazTweaks.CONFIG.configInstance().visualCategory.hideStatusEffects;
         final var shouldHideEffects = hideStatusEffects == VisualCategory.HideStatusEffects.BOTH ||
                 hideStatusEffects == VisualCategory.HideStatusEffects.INVENTORY;

@@ -53,7 +53,7 @@ public abstract class ChatComponentMixin {
         return instance.size();
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"))
+    @Redirect(method = "forEachLine", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"))
     public Object kraztweaks$render$getVisibleMessage$includeChatTimestamps(List<GuiMessage.Line> instance, int i) {
         final var includeChatTimestamps = KrazTweaks.CONFIG.configInstance().chatCategory.includeChatTimestamps;
 
