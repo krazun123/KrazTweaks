@@ -215,7 +215,7 @@ public abstract class AbstractContainerScreenMixin {
 
     @ModifyReturnValue(method = "getTooltipFromContainerItem", at = @At("RETURN"))
     public List<Component> kraztweaks$getTooltipFromContainerItem$hideEnchantmentDescriptions(List<Component> original) {
-        if(MiscUtils.isOnServer("hypixel")) {
+        if (MiscUtils.isOnServer("hypixel")) {
             final boolean hideEnchantmentDescriptions = KrazTweaks.CONFIG.configInstance()
                     .hypixelCategory
                     .hypixelSkyBlockCategory

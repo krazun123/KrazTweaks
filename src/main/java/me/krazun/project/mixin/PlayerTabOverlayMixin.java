@@ -20,10 +20,10 @@ public abstract class PlayerTabOverlayMixin {
 
     @ModifyReturnValue(method = "getPlayerInfos", at = @At("RETURN"))
     public List<PlayerInfo> kraztweaks$getPlayerInfos$hideNPCSFromTab(List<PlayerInfo> original) {
-        if(MiscUtils.isOnServer("hypixel")) {
+        if (MiscUtils.isOnServer("hypixel")) {
             final var hideNPCSFromTab = KrazTweaks.CONFIG.configInstance().hypixelCategory.hideNPCSFromTab;
 
-            if(hideNPCSFromTab) {
+            if (hideNPCSFromTab) {
                 final var modifiedList = original
                         .stream()
                         .filter(playerInfo ->

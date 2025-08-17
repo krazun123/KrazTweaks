@@ -15,7 +15,7 @@ public final class MiscUtils {
 
     public static boolean isOnServer(@NotNull String serverName) {
         final var currentServer = Minecraft.getInstance().getCurrentServer();
-        if(currentServer == null) return false;
+        if (currentServer == null) return false;
 
         return currentServer.ip.toLowerCase().contains(serverName);
     }

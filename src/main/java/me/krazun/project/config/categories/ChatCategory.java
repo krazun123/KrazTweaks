@@ -21,12 +21,16 @@ public final class ChatCategory {
     @LatticeIntRange(min = 40, max = 320)
     @LatticeShowIf(function = "shouldShowCompactInputBoxMinimumWidth", frequency = LatticeDynamicFrequency.EVERY_TICK)
     public int compactInputBoxMinimumWidth = 180;
+
     @LatticeOption(title = "krazconfig.chat.includeChatTimestamps", description = "!!.description")
     @LatticeWidgetButton
     public boolean includeChatTimestamps = false;
+
     @LatticeOption(title = "krazconfig.chat.chatTimestampPattern", description = "!!.description")
+    @LatticeShowIf(function = "shouldShowChatTimestampPattern", frequency = LatticeDynamicFrequency.EVERY_TICK)
     @LatticeWidgetTextField
     public String chatTimestampPattern = "HH:mm:ss";
+
     @LatticeOption(title = "krazconfig.chat.copyChat", description = "!!.description")
     @LatticeWidgetKeybind(allowModifiers = true)
     public CustomKeybind copyChat = new CustomKeybind(null, 0, false, false, false, false);
@@ -35,4 +39,7 @@ public final class ChatCategory {
         return compactInputBox;
     }
 
+    public boolean shouldShowChatTimestampPattern() {
+        return includeChatTimestamps;
+    }
 }
