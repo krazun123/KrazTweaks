@@ -2,6 +2,7 @@ package me.krazun.project.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.krazun.project.KrazTweaks;
+import me.krazun.project.utils.MiscUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -202,63 +203,66 @@ public abstract class AbstractContainerScreenMixin {
         }
     }
 
-    @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "keyPressed", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;checkHotbarKeyPressed(II)Z"), cancellable = true)
     public void kraztweaks$keyPressed$cancelClicksOnSlotWhenTooltipIsEmpty(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         final var cancelClicksOnSlotWhenTooltipIsEmpty = KrazTweaks.CONFIG.configInstance().visualCategory.inventoryCategory.cancelClicksOnSlotWhenTooltipIsEmpty;
 
         if (cancelClicksOnSlotWhenTooltipIsEmpty) {
+
             kraztweaks$cancelClicksOnSlotWhenTooltipIsEmpty(cir);
         }
     }
 
     @ModifyReturnValue(method = "getTooltipFromContainerItem", at = @At("RETURN"))
     public List<Component> kraztweaks$getTooltipFromContainerItem$hideEnchantmentDescriptions(List<Component> original) {
-        final boolean hideEnchantmentDescriptions = KrazTweaks.CONFIG.configInstance()
-                .hypixelCategory
-                .hypixelSkyBlockCategory
-                .hideEnchantmentDescriptions;
-        if (hideEnchantmentDescriptions) {
-            int slot = hoveredSlot != null ? hoveredSlot.index : -1;
-            int slots = menu.slots.size();
+        if(MiscUtils.isOnServer("hypixel")) {
+            final boolean hideEnchantmentDescriptions = KrazTweaks.CONFIG.configInstance()
+                    .hypixelCategory
+                    .hypixelSkyBlockCategory
+                    .hideEnchantmentDescriptions;
+            if (hideEnchantmentDescriptions) {
+                int slot = hoveredSlot != null ? hoveredSlot.index : -1;
+                int slots = menu.slots.size();
 
-            if (slot <= slots && slot >= slots - 37) {
-                final var modifiedList = new ArrayList<>(original);
-                final var colorCodePattern = Pattern.compile("§[0-9a-fklmnor]");
-                final var enchantmentPattern = Pattern.compile("^(.*)\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X)$");
+                if (slot <= slots && slot >= slots - 37) {
+                    final var modifiedList = new ArrayList<>(original);
+                    final var colorCodePattern = Pattern.compile("§[0-9a-fklmnor]");
+                    final var enchantmentPattern = Pattern.compile("^(.*)\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X)$");
 
-                for (int i = 0; i < modifiedList.size() - 1; ) {
-                    final var component = modifiedList.get(i);
-                    final var color = component.getStyle().getColor();
+                    for (int i = 0; i < modifiedList.size() - 1; ) {
+                        final var component = modifiedList.get(i);
+                        final var color = component.getStyle().getColor();
 
-                    if (color != null && color.getValue() == 0xAAAAAA) {
-                        modifiedList.remove(i);
-                        continue;
-                    }
+                        if (color != null && color.getValue() == 0xAAAAAA) {
+                            modifiedList.remove(i);
+                            continue;
+                        }
 
-                    final var rawString = colorCodePattern.matcher(component.getString()).replaceAll("");
-                    final var matcher = enchantmentPattern.matcher(rawString);
+                        final var rawString = colorCodePattern.matcher(component.getString()).replaceAll("");
+                        final var matcher = enchantmentPattern.matcher(rawString);
 
-                    if (matcher.matches()) {
-                        final var enchantmentName = matcher.group(1).trim();
+                        if (matcher.matches()) {
+                            final var enchantmentName = matcher.group(1).trim();
 
-                        if (HYPIXEL_ENCHANTMENT_NAMES.stream().anyMatch(enchantmentName::equalsIgnoreCase)) {
-                            int endIndex = -1;
+                            if (HYPIXEL_ENCHANTMENT_NAMES.stream().anyMatch(enchantmentName::equalsIgnoreCase)) {
+                                int endIndex = -1;
 
-                            for (int j = i + 1; j < modifiedList.size(); j++) {
-                                final var nextRaw = colorCodePattern.matcher(modifiedList.get(j).getString()).replaceAll("");
-                                if (nextRaw.isBlank() || enchantmentPattern.matcher(nextRaw).matches()) {
-                                    endIndex = j;
-                                    break;
+                                for (int j = i + 1; j < modifiedList.size(); j++) {
+                                    final var nextRaw = colorCodePattern.matcher(modifiedList.get(j).getString()).replaceAll("");
+                                    if (nextRaw.isBlank() || enchantmentPattern.matcher(nextRaw).matches()) {
+                                        endIndex = j;
+                                        break;
+                                    }
+                                }
+                                if (endIndex > i + 1) {
+                                    modifiedList.subList(i + 1, endIndex).clear();
                                 }
                             }
-                            if (endIndex > i + 1) {
-                                modifiedList.subList(i + 1, endIndex).clear();
-                            }
                         }
+                        i++;
                     }
-                    i++;
+                    return modifiedList;
                 }
-                return modifiedList;
             }
         }
         return original;

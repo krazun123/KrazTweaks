@@ -16,6 +16,7 @@
     "ChatScreenMixin",
     "EffectsInInventoryMixin",
     "GuiMixin",
+    "PlayerTabOverlayMixin",
     "SkinManagerMixin"
   ]
 }

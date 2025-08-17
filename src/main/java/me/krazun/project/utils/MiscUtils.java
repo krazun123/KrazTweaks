@@ -1,6 +1,7 @@
 package me.krazun.project.utils;
 
 import me.krazun.project.KrazTweaks;
+import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public final class MiscUtils {
+
+    public static boolean isOnServer(@NotNull String serverName) {
+        final var currentServer = Minecraft.getInstance().getCurrentServer();
+        if(currentServer == null) return false;
+
+        return currentServer.ip.toLowerCase().contains(serverName);
+    }
 
     public static @NotNull String readFileAsString(Path filePath) {
         try {

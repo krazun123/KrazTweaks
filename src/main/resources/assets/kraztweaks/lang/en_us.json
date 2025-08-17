@@ -39,8 +39,8 @@
   "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions": "Hide Enchantment Descriptions",
   "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions.description": "Hides the description of enchantments on the item.",
 
-  "krazconfig.hypixel.skyblock.hideNPCSFromTab": "Hide NPC's from tab",
-  "krazconfig.hypixel.skyblock.hideNPCSFromTab.description": "Hides NPC's from the tablist.",
+  "krazconfig.hypixel.hideNPCSFromTab": "Hide NPC's from tab",
+  "krazconfig.hypixel.hideNPCSFromTab.description": "Hides NPC's from the tablist.",
 
   "krazconfig.misc": "Misc",
 

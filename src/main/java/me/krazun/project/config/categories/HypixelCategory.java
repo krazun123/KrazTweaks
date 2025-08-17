@@ -13,9 +13,9 @@ public final class HypixelCategory {
         @LatticeOption(title = "krazconfig.hypixel.skyblock.hideEnchantmentDescriptions", description = "!!.description")
         @LatticeWidgetButton
         public boolean hideEnchantmentDescriptions = false;
-
-        @LatticeOption(title = "krazconfig.hypixel.skyblock.hideNPCSFromTab", description = "!!.description")
-        @LatticeWidgetButton
-        public boolean hideNPCSFromTab = false;
     }
+
+    @LatticeOption(title = "krazconfig.hypixel.hideNPCSFromTab", description = "!!.description")
+    @LatticeWidgetButton
+    public boolean hideNPCSFromTab = false;
 }
