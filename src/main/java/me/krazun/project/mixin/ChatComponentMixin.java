@@ -27,6 +27,7 @@ public abstract class ChatComponentMixin {
 
     @Shadow
     private int chatScrollbarPos;
+
     @Shadow
     private boolean newMessageSinceScroll;
 
